@@ -19,7 +19,7 @@ html, body {
     content: "&nbsp;";
 }
 
-#lopet {
+#pet {
     --min-size: 32px;
     --size: 32px;
     background: #14D214;
