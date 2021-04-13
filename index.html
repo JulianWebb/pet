@@ -1,0 +1,105 @@
+<html>
+    <head>
+        <title>pets - LospecBot</title>
+        <link href="reset.css" type="text/css" rel="stylesheet" />
+        <link href="style.css" type="text/css" rel="stylesheet" />
+        <script>
+            class Logger {
+                constructor(config) {
+                    this.config = {};
+                    this.config.name = config.name? config.name: "logger";
+                    this.config.timestamp = config.timestamp? config.timestamp: true;
+                }
+
+                get timestamp() {
+                    let now = new Date();
+                    let hour = now.getHours();
+                    let minute = now.getMinutes();
+                    let stringHour = hour > 10? hour: `0${hour}`;
+                    let stringMinute = minute > 10? minute: `0${minute}`;
+                    return `[${stringHour}:${stringMinute}]`;
+                }
+
+                get name() {
+                    return `[${this.config.name}]`;
+                }
+
+                log(message) {
+                    let logMessage = this.config.timestamp? `${this.timestamp}${this.name}`: this.name;
+
+                    if (Array.isArray(message)) {
+                        message.unshift(logMessage);
+                        return console.log.apply(this, message);
+                    }
+
+                    return console.log.apply(this, [logMessage, message]);
+                }
+            }
+
+            class Pet {
+                constructor(petData, petSpritesheet, petConfig) {
+                    this.logger = new Logger({ name: "PET" });
+
+                    this.updateInterval = 1/60 * 1000;
+
+                    // Canvas Initialization
+                    let canvas = document.getElementById("pet");
+                    if (canvas == null) {
+                        canvas = document.body.appendChild(document.createElement("canvas"));
+                    }
+                    this.canvas = canvas;
+
+                    // Other Initialization
+                    this.grabbed = false;
+                    this.mouse = {};
+                    document.addEventListener("mousemove", (event) => {
+                        this.mouse.x = event.x;
+                        this.mouse.y = event.y;
+                    })
+
+                    // Canvas Events
+                    this.canvas.addEventListener("mousedown", (event) => {
+                        this.logger.log("Grabbing");
+                        this.canvas.style.cursor = "grabbing";
+                        this.grabbed = true;
+                    })
+
+                    window.addEventListener("mouseup", (event) => {
+                        this.logger.log("Releasing")
+                        this.canvas.style.cursor = "grab";
+                        this.grabbed = false;
+                    })
+
+                    window.addEventListener("mouseout", (event) => {
+                        this.logger.log("Releasing");
+                        this.canvas.style.cursor = "grab";
+                        this.grabbed = false;
+                    })
+
+                    this.canvas.addEventListener("dragstart", (event) => {
+
+                    })
+
+                    setInterval(()=> { this.run() }, this.updateInterval, this)
+                }
+
+                run() {
+                    if (this.grabbed) {
+                        this.canvas.style.left = this.mouse.x - 16;
+                        this.canvas.style.top = this.mouse.y - 16;
+                    }
+                }
+            }
+
+            window.addEventListener("load", () => {
+                console.log("Loaded")
+                let pet = new Pet();
+            })
+            
+        </script>
+    </head>
+    <body>
+        <div id="content"></div>
+        <canvas id="pet"></canvas>
+    </body>
+</html>
