@@ -72,14 +72,14 @@
 
                     window.addEventListener("mouseup", (event) => {
                         this.logger.log("Releasing")
-                        this.canvas.style.cursor = "grab";
+                        this.canvas.style.cursor = "";
                         this.grabbed = false;
                     })
 
                     window.addEventListener("mouseout", (event) => {
                         if (event.target == document.children[0]) {
                             this.logger.log("Releasing");
-                            this.canvas.style.cursor = "grab";
+                            this.canvas.style.cursor = "";
                             this.grabbed = false;
                         }
                     })
