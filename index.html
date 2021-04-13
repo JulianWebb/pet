@@ -46,6 +46,7 @@
                         x: 16,
                         y: 16,
                     }
+                    this.gravity = 8 / this.updateInterval;
 
                     // Canvas Initialization
                     let canvas = document.getElementById("pet");
@@ -90,10 +91,12 @@
                     if (this.grabbed) {
                         this.position.x = this.mouse.x - 16;
                         this.position.y = this.mouse.y - 16;
+                    } else {
+                        this.position.y += this.gravity;
                     }
 
                     this.position.x < 0? this.position.x = 0: (this.position.x > (window.innerWidth - this.width)? this.position.x = window.innerWidth - this.width: this.position.x);
-                    this.position.y < 0? this.position.y = 0: (this.position.y > (window.innerHeight - this.height)? this.position.y = window.inderHeight - this.width: this.position.y);
+                    this.position.y < 0? this.position.y = 0: (this.position.y > (window.innerHeight - this.width)? this.position.y = window.innerHeight - this.width: this.position.y);
                 
                     this.canvas.style.left = this.position.x;
                     this.canvas.style.top  = this.position.y;
