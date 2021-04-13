@@ -31,7 +31,6 @@ html, body {
     position: fixed;
     top: 1vh;
     left: 1vh;
-    cursor: grab;
     z-index: 9998;
     overflow: hidden;
 }
