@@ -83,6 +83,12 @@
                             this.grabbed = false;
                         }
                     })
+                    
+                    window.addEventListener("onfloor", (event) => {
+                        if (this.position.x == window.innerHeight) {
+                            this.logger.log("On Floor")
+                        }
+                    })
 
                     setInterval(()=> { this.run() }, this.updateInterval, this)
                 }
