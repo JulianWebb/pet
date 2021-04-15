@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>pets - LospecBot</title>
+        <meta charset="utf-8"  />
         <link href="reset.css" type="text/css" rel="stylesheet" />
         <link href="style.css" type="text/css" rel="stylesheet" />
         <script>
@@ -46,7 +47,8 @@
                         x: 16,
                         y: 16,
                     }
-                    this.gravity = 16 / this.updateInterval;
+                  
+                    this.gravity = 128 / this.updateInterval;
 
                     // Canvas Initialization
                     let canvas = document.getElementById("pet");
@@ -86,7 +88,7 @@
 
                     setInterval(()=> { this.run() }, this.updateInterval, this)
                 }
-
+                
                 run() {
                     if (this.grabbed) {
                         this.position.x = this.mouse.x - 16;
@@ -94,12 +96,26 @@
                     } else {
                         this.position.y += this.gravity;
                     }
-
+                    
                     this.position.x < 0? this.position.x = 0: (this.position.x > (window.innerWidth - this.width)? this.position.x = window.innerWidth - this.width: this.position.x);
                     this.position.y < 0? this.position.y = 0: (this.position.y > (window.innerHeight - this.width)? this.position.y = window.innerHeight - this.width: this.position.y);
                 
                     this.canvas.style.left = this.position.x;
                     this.canvas.style.top  = this.position.y;
+                    
+                    // Initialization
+                    this.onfloor = false;
+                    var floor = window.innerHeight - (this.width + 1);
+                    
+                    // Check Floor
+                    if (this.onfloor == false) {
+                        if (this.position.y >= floor) {
+                        this.logger.log("On Floor");
+                        this.onfloor = true;
+                        }
+                    } else {
+                        this.onfloor = false;
+                    }
                 }
             }
 
